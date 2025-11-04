@@ -48,7 +48,7 @@ public static class VbCompilerService
             .WithGlobalImports(globalImports)
             .WithRootNamespace("")
             .WithOptionExplicit(true)
-            .WithMainTypeName(null); // Explicitly no entry point for DLL
+            .WithMainTypeName(null);
 
         var compilation = VisualBasicCompilation.Create(
             assemblyName,

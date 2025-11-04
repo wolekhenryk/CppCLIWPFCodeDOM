@@ -25,6 +25,11 @@ ref class DataModel : INotifyPropertyChanged {
 	System::Type^ type;
 	ObjectHandle^ handle;
 	ICommand^ _AddCodeCommand;
+	ICommand^ _InvokeMethodCommand;
+	MethodInfo^ _selectedMethod = nullptr;
+	FieldInfo^ _selectedField = nullptr;
+	String^ _methodParameter = "";
+	String^ _methodResult = "";
 
 #pragma endregion End of Private Fields
 
@@ -128,6 +133,9 @@ public:
 		void set(Object^ value) {
 			objectInstance = value;
 			OnPropertyChanged("ObjectInstance");
+			if (_InvokeMethodCommand != nullptr) {
+				((InvokeMethodCommandImpl^)_InvokeMethodCommand)->RaiseCanExecuteChanged();
+			}
 		}
 	}
 
@@ -150,6 +158,66 @@ public:
 		void set(System::Type^ value) {
 			type = value;
 			OnPropertyChanged("Type");
+		}
+	}
+
+	property MethodInfo^ SelectedMethod {
+		MethodInfo^ get() {
+			return _selectedMethod;
+		}
+
+		void set(MethodInfo^ value) {
+			_selectedMethod = value;
+			OnPropertyChanged("SelectedMethod");
+			if (_InvokeMethodCommand != nullptr) {
+				((InvokeMethodCommandImpl^)_InvokeMethodCommand)->RaiseCanExecuteChanged();
+			}
+		}
+	}
+
+	property FieldInfo^ SelectedField {
+		FieldInfo^ get() {
+			return _selectedField;
+		}
+
+		void set(FieldInfo^ value) {
+			_selectedField = value;
+			OnPropertyChanged("SelectedField");
+		}
+	}
+
+	property String^ MethodParameter {
+		String^ get() {
+			return _methodParameter;
+		}
+
+		void set(String^ value) {
+			_methodParameter = value;
+			OnPropertyChanged("MethodParameter");
+		}
+	}
+
+	property String^ MethodResult {
+		String^ get() {
+			return _methodResult;
+		}
+
+		void set(String^ value) {
+			_methodResult = value;
+			OnPropertyChanged("MethodResult");
+		}
+	}
+
+	property ICommand^ InvokeMethodCommand {
+		ICommand^ get() {
+			if (_InvokeMethodCommand == nullptr)
+			{
+				_InvokeMethodCommand = gcnew InvokeMethodCommandImpl(this);
+			}
+			return _InvokeMethodCommand;
+		}
+		void set(ICommand^ value) {
+			_InvokeMethodCommand = value;
 		}
 	}
 
@@ -178,6 +246,40 @@ public:
 		virtual event EventHandler^ CanExecuteChanged {
 			void add(EventHandler^) {}
 			void remove(EventHandler^) {}
+		}
+	};
+
+	ref class InvokeMethodCommandImpl : public ICommand {
+
+		DataModel^ _viewModel;
+		EventHandler^ _canExecuteChanged;
+
+		property DataModel^ ViewModel {
+			DataModel^ get() {
+				return _viewModel;
+			}
+
+			void set(DataModel^ value) {
+				_viewModel = value;
+			}
+		}
+		virtual bool CanExecute(System::Object^ parameter) = ICommand::CanExecute;
+		virtual void Execute(System::Object^ parameter) = ICommand::Execute;
+	public:
+
+		InvokeMethodCommandImpl(DataModel^ viewModel);
+		virtual event EventHandler^ CanExecuteChanged {
+			void add(EventHandler^ handler) {
+				_canExecuteChanged += handler;
+			}
+			void remove(EventHandler^ handler) {
+				_canExecuteChanged -= handler;
+			}
+		}
+		void RaiseCanExecuteChanged() {
+			if (_canExecuteChanged != nullptr) {
+				_canExecuteChanged(this, EventArgs::Empty);
+			}
 		}
 	};
 

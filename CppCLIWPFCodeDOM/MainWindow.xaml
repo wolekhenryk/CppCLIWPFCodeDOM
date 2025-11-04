@@ -30,16 +30,16 @@
         <Label Content="Errors:" HorizontalAlignment="Left" Margin="22,266,0,0" VerticalAlignment="Top" Width="60"/>
         <ListBox ItemsSource="{Binding ErrorsList}"   HorizontalAlignment="Left" Height="90" Margin="88,266,0,0" VerticalAlignment="Top" Width="334"/>
         <Label Content="Methods:" HorizontalAlignment="Left" Margin="22,361,0,0" VerticalAlignment="Top"/>
-        <ListBox HorizontalAlignment="Left" Height="90" Margin="88,361,0,0" VerticalAlignment="Top" Width="334"/>
+        <ListBox ItemsSource="{Binding Methods}" SelectedItem="{Binding SelectedMethod}" DisplayMemberPath="Name" HorizontalAlignment="Left" Height="90" Margin="88,361,0,0" VerticalAlignment="Top" Width="334"/>
         <Label Content="Variables:" HorizontalAlignment="Left" Margin="22,456,0,0" VerticalAlignment="Top"/>
-        <ListBox HorizontalAlignment="Left" Height="90" Margin="88,456,0,0" VerticalAlignment="Top" Width="334"/>
-        <TextBox HorizontalAlignment="Left" Height="62" Margin="450,389,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="&#x9;"/>
+        <ListBox ItemsSource="{Binding Fields}" SelectedItem="{Binding SelectedField}" DisplayMemberPath="Name" HorizontalAlignment="Left" Height="90" Margin="88,456,0,0" VerticalAlignment="Top" Width="334"/>
+        <TextBox Text="{Binding MethodResult, Mode=TwoWay}" HorizontalAlignment="Left" Height="62" Margin="450,389,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="450,487,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Button Content="INVOKE" HorizontalAlignment="Left" Margin="450,347,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.272,-0.525"/>
+        <Button Command="{Binding InvokeMethodCommand}" Content="INVOKE" HorizontalAlignment="Left" Margin="450,347,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.272,-0.525"/>
         <Button Content="SET" HorizontalAlignment="Left" Margin="450,515,0,0" VerticalAlignment="Top" Width="120"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="450,459,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" />
         <Label Content="Parametrer:" HorizontalAlignment="Left" Margin="450,295,0,0" VerticalAlignment="Top" Width="80"/>
         <Label Content="Result:" HorizontalAlignment="Left" Margin="450,363,0,0" VerticalAlignment="Top" Width="67"/>
-        <TextBox HorizontalAlignment="Left" Height="21" Margin="450,321,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" />
+        <TextBox Text="{Binding MethodParameter, Mode=TwoWay}" HorizontalAlignment="Left" Height="21" Margin="450,321,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" />
     </Grid>
 </Window>
