@@ -83,18 +83,13 @@ void DataModel::InvokeMethodCommandImpl::Execute(System::Object^)
     try
     {
         array<System::Object^>^ params = nullptr;
-
-        // Check if method has parameters
         array<ParameterInfo^>^ methodParams = _viewModel->SelectedMethod->GetParameters();
 
         if (methodParams->Length > 0)
-        {
-            // For simplicity, we'll handle methods with one parameter
+        {            
             if (methodParams->Length == 1)
             {
                 params = gcnew array<System::Object^>(1);
-
-                // Try to convert the parameter string to the appropriate type
                 System::Type^ paramType = methodParams[0]->ParameterType;
 
                 if (paramType == String::typeid)
@@ -136,10 +131,8 @@ void DataModel::InvokeMethodCommandImpl::Execute(System::Object^)
             }
         }
 
-        // Invoke the method
         System::Object^ result = _viewModel->SelectedMethod->Invoke(_viewModel->ObjectInstance, params);
 
-        // Display the result
         if (result != nullptr)
             _viewModel->MethodResult = result->ToString();
         else

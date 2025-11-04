@@ -1,5 +1,4 @@
-﻿// Projekt: VBRoslynCompiler (Class Library, net8.0)
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.CodeAnalysis.VisualBasic;
 using System.IO;
@@ -14,8 +13,6 @@ public static class VbCompilerService
     public static VbCompileResult Compile(string code, string assemblyName, OutputKind outputKind)
     {
         var tree = VisualBasicSyntaxTree.ParseText(SourceText.From(code, System.Text.Encoding.UTF8));
-
-        // Get all necessary runtime assemblies
         var assemblyPath = Path.GetDirectoryName(typeof(object).Assembly.Location)!;
         
         var references = new List<MetadataReference>
@@ -32,7 +29,6 @@ public static class VbCompilerService
             MetadataReference.CreateFromFile(Path.Combine(assemblyPath, "netstandard.dll")),
         };
 
-        // Add VB-specific global imports
         var globalImports = new[]
         {
             GlobalImport.Parse("System"),
